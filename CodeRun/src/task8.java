@@ -16,20 +16,13 @@ public class Main {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        /*
-        Пример ввода и вывода числа n, где -10^9 < n < 10^9:
-        int n = Integer.parseInt(reader.readLine());
-        writer.write(String.valueOf(n));
-        */
         Integer lastNum = null;
-        String[] input = reader.readLine().split(" ");
-        for (String numStr : input) {
+        for (String numStr : reader.readLine().split(" ")) {
             int num = Integer.parseInt(numStr);
             if (lastNum == null) {
                 lastNum = num;
                 continue;
             }
-
             if (num <= lastNum) {
                 writer.write("NO");
                 reader.close();
