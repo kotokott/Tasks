@@ -2,6 +2,7 @@
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
+import java.util.stream.*;
 
 public class TestRunner {
 
@@ -29,13 +30,13 @@ public class TestRunner {
 
         for (TestCase test : tests) {
             String actual = runTest(javaFile.toString(), test.input);
-            boolean ok = normalize(actual).equals(normalize(test.expected));
+            boolean ok = test.expected.contains(normalize(actual));
             if (ok) {
                 System.out.println("✓ PASS — " + test.name);
                 passed++;
             } else {
                 System.out.println("✗ FAIL — " + test.name);
-                System.out.println("  expected: " + normalize(test.expected));
+                System.out.println("  expected: " + normalize(String.join("/", test.expected)));
                 System.out.println("  actual:   " + normalize(actual));
             }
         }
@@ -74,11 +75,14 @@ public class TestRunner {
             if (inputIdx == -1 || outputIdx == -1) continue;
 
             String input = block.substring(inputIdx + 5, outputIdx).strip();
-            String expected = block.substring(outputIdx + 6).strip();
+            List<String> expected = Arrays
+                .stream(block.substring(outputIdx + 6).strip().split("/"))
+                .map(t -> normalize(t))
+                .toList();
             result.add(new TestCase(name, input, expected));
         }
         return result;
     }
 
-    record TestCase(String name, String input, String expected) {}
+    record TestCase(String name, String input, List<String> expected) {}
 }

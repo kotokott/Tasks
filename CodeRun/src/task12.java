@@ -23,6 +23,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -34,12 +35,52 @@ public class Main {
         int n = Integer.parseInt(reader.readLine());
         writer.write(String.valueOf(n));
         */
-        Map<Integer, List<Integer>> nums = new HashMap<>();
         int n = Integer.parseInt(reader.readLine());
         int[] nums = new int[n];
-        String[] strNums = reader.readLine().split(" ");
+
+        StringTokenizer st = new StringTokenizer(reader.readLine());
         for (int i = 0; i < n; i++) {
-            nums[i] = strNums[i]
+            nums[i] = Integer.parseInt(st.nextToken());
+        }
+        Arrays.sort(nums); //O(n log n)
+
+        int numToFind = Integer.parseInt(reader.readLine());
+
+        int left = 0;
+        int right = nums.length - 1;
+        while (left <= right) {
+            //System.out.println("stats: ");
+            //System.out.println(nums[left]);
+            //System.out.println(nums[right]);
+            int mid = ((left + right) / 2);
+            //System.out.println(nums[mid]);
+
+            if (nums[mid] == numToFind) {
+                writer.write(String.valueOf(nums[mid]));
+
+                reader.close();
+                writer.close();
+                return;
+            }
+            else if (nums[mid] < numToFind) {
+                left = mid + 1;
+            }
+            else {
+                right = mid - 1;
+            }
+        }
+
+        if (left >= nums.length) {
+            writer.write(String.valueOf(nums[right]));
+        }
+        else if (right < 0) {
+            writer.write(String.valueOf(nums[left]));
+        }
+        else {
+            int ans = Math.abs(nums[left] - numToFind) < Math.abs(nums[right] - numToFind)
+                    ? nums[left]
+                    : nums[right];
+            writer.write(String.valueOf(ans));
         }
 
         reader.close();
