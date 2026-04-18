@@ -1,0 +1,27 @@
+=== TEST: 1
+INPUT
+3
+Hello Hi
+Bye Goodbye
+List Array
+Goodbye
+OUTPUT
+Bye
+===
+=== TEST: 2
+INPUT
+1
+beep Car
+Car
+OUTPUT
+beep
+===
+=== TEST: 3
+INPUT
+2
+Ololo Ololo
+Numbers 1234567890
+Numbers
+OUTPUT
+1234567890
+===
